@@ -6,43 +6,28 @@ require_once(trailingslashit(get_template_directory()) . 'theme-options.php');
 require_once(trailingslashit(get_template_directory()) . 'inc/customizer.php');
 require_once(trailingslashit(get_template_directory()) . 'inc/last-updated-meta-box.php');
 require_once(trailingslashit(get_template_directory()) . 'inc/scripts.php');
-// TGMP
-require_once(trailingslashit(get_template_directory()) . 'tgm/class-tgm-plugin-activation.php');
+// Recommended plugins notice
+require_once(trailingslashit(get_template_directory()) . 'inc/class-ct-recommended-plugins.php');
 
-function ct_chosen_register_required_plugins()
+function ct_chosen_register_recommended_plugins()
 {
-    $plugins = array(
-
-        array(
-            'name'      => 'Independent Analytics',
-            'slug'      => 'independent-analytics',
-            'required'  => false,
-        ),
-    );
-    
-    $config = array(
-        'id'           => 'ct-chosen',
-        'default_path' => '',
-        'menu'         => 'tgmpa-install-plugins',
-        'has_notices'  => true,
-        'dismissable'  => true,
-        'dismiss_msg'  => '',
-        'is_automatic' => false,
-        'message'      => '',
-        'strings'      => array(
-            'page_title'                      => __('Install Recommended Plugins', 'chosen'),
-            'menu_title'                      => __('Recommended Plugins', 'chosen'),
-            'notice_can_install_recommended'     => _n_noop(
-                'The makers of the Chosen theme now recommend installing Independent Analytics, their new plugin for visitor tracking: %1$s.',
-                'The makers of the Chosen theme now recommend installing Independent Analytics, their new plugin for visitor tracking: %1$s.',
-                'chosen'
+    new CT_Recommended_Plugins(array(
+        'id'      => 'ct-chosen',
+        'plugins' => array(
+            array(
+                'name'        => 'Independent Analytics',
+                'slug'        => 'independent-analytics',
+                'description' => __('a simple, privacy-friendly alternative to Google Analytics.', 'chosen'),
             ),
-        )
-    );
-
-    tgmpa($plugins, $config);
+            array(
+                'name'        => 'Resolver',
+                'slug'        => 'resolver-ai-chatbot',
+                'description' => __('an AI-powered chatbot that trains on your website\'s content and answers visitor questions intelligently.', 'chosen'),
+            ),
+        ),
+    ));
 }
-add_action('tgmpa_register', 'ct_chosen_register_required_plugins');
+add_action('init', 'ct_chosen_register_recommended_plugins');
 
 if (! function_exists(('ct_chosen_set_content_width'))) {
     function ct_chosen_set_content_width()
@@ -361,6 +346,8 @@ if (! function_exists('ct_chosen_social_array')) {
             'linkedin'      => 'chosen_linkedin_profile',
             'pinterest'     => 'chosen_pinterest_profile',
             'youtube'       => 'chosen_youtube_profile',
+            'tiktok'        => 'chosen_tiktok_profile',
+            'threads'       => 'chosen_threads_profile',
             'rss'           => 'chosen_rss_profile',
             'email'         => 'chosen_email_profile',
             'phone'			=> 'chosen_phone_profile',
